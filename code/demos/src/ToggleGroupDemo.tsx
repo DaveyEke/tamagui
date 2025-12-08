@@ -3,21 +3,31 @@ import type { SizeTokens } from 'tamagui'
 import { Label, styled, ToggleGroup, XStack, YStack } from 'tamagui'
 
 const PurpleItem = styled(ToggleGroup.Item, {
-  color: '$red10', 
-  activeBackgroundColor: '$purple9',
-  activeColor: '$yellow10',  
+
+  styleWhenActive: {
+    backgroundColor: '$pink9',
+    color: '$yellow10',
+  } as any,
+  color: '$red10',
 })
 
+
 const GreenItem = styled(ToggleGroup.Item, {
-  color: '$blue10', 
-  activeBackgroundColor: '$green9',
-  activeColor: '$orange10', 
+
+  styleWhenActive: {
+    backgroundColor: '$green9',
+    color: '$orange10',
+  } as any,
+  color: '$blue10',
+  
 })
 
 const RedItem = styled(ToggleGroup.Item, {
-  color: '$purple10',  
-  activeBackgroundColor: '$red9',
-  activeColor: '$pink10',  
+  styleWhenActive: {
+    backgroundColor: '$red9',
+    color: '$pink10',
+  } as any,
+  color: '$purple10',
 })
 
 export function ToggleGroupDemo() {
@@ -61,10 +71,10 @@ function ToggleGroupComponent(props: {
         size={props.size}
         disableDeactivation={false}
       >
-        <PurpleItem value="left" aria-label="Left aligned" style={{ color: '$yellow10' }}>
+        <PurpleItem value="left" aria-label="Left aligned">
           <AlignLeft />
         </PurpleItem>
-        <GreenItem value="center"  aria-label="Center aligned">
+        <GreenItem value="center" aria-label="Center aligned">
           <AlignCenter />
         </GreenItem>
         <RedItem value="right" aria-label="Right aligned">
@@ -74,4 +84,3 @@ function ToggleGroupComponent(props: {
     </XStack>
   )
 }
-

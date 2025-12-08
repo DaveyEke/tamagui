@@ -60,11 +60,7 @@ const ToggleGroupItem = ToggleFrame.extractable(
       const context = useToggleGroupContext(props.__scopeToggleGroup)
       const pressed = valueContext?.value.includes(props.value)
    
-     const [propsFromStyle, { color }] = usePropsAndStyle({ 
-        ...props, 
-        active: pressed 
-      })
-
+     const [propsFromStyle, { color }] = usePropsAndStyle(props)
 
       const disabled = context.disabled || props.disabled || false
       const groupItemProps = useGroupItem({ disabled })
@@ -83,9 +79,14 @@ const ToggleGroupItem = ToggleFrame.extractable(
         (typeof size === 'number' ? size * 0.7 : getFontSize(size as FontSizeTokens)) *
         1.2
 
-       const iconColor = pressed && (props as any).activeColor 
-        ? (props as any).activeColor 
-        : (color ?? theme.color)
+const rawActiveColor = pressed ? (propsFromStyle as any)?.styleWhenActive?.color : undefined
+
+const activeColor =
+  rawActiveColor == null
+    ? undefined
+    : String(getVariableValue(rawActiveColor as any) ?? rawActiveColor)
+
+const iconColor = activeColor ?? (color as unknown as string) ?? (theme.color as unknown as string)
       
       const getThemedIcon = useGetThemedIcon({
         size: iconSize,
@@ -109,6 +110,8 @@ const ToggleGroupItem = ToggleFrame.extractable(
         ...sizeProps,
         children,
       }
+
+      
 
       const inner = (
         <ToggleGroupItemImpl
@@ -161,6 +164,7 @@ const ToggleGroupItemImpl = React.forwardRef<
   ScopedProps<ToggleGroupItemImplProps>
 >((props: ScopedProps<ToggleGroupItemImplProps>, forwardedRef) => {
     const { __scopeToggleGroup, value, pressed, ...itemProps } = props 
+
 
   const valueContext = useToggleGroupValueContext(__scopeToggleGroup)
 

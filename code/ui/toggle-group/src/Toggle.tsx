@@ -52,49 +52,35 @@ export const ToggleFrame = styled(ThemeableStack, {
       },
     },
 
-    activeBackgroundColor: {
-      '...color': () => ({}),
+     // used this name beacause "activeStyle" is already taken by Tamagui
+    styleWhenActive: {
+      '...': () => {
+        return {}
+      },
     },
 
-    activeBorderColor: {
-      '...color': () => ({}),
-    },
-
-     activeColor: {
-      '...color': () => ({}),
-    },
-
-    color: {
+     color: {
       '...color': () => {
         return {}
       },
     },
 
-  active: {
-  true: (_, extras) => {
-    const props = extras.props as { 
-      activeBackgroundColor?: string
-      activeBorderColor?: string 
-      activeColor?: string
-    }
+   
 
-    return {
-      zIndex: 1,
-      backgroundColor: props.activeBackgroundColor,
-      borderColor: props.activeBorderColor,
-      color: props.activeColor,
-      hoverStyle: {
-        backgroundColor: '$backgroundHover',
+  active: {
+      true: (_, { props }) => {
+       const activeStyle = (props as any).styleWhenActive || {}
+       const { color: colorFromActiveStyle, ...safeActiveStyle } = activeStyle
+        return {
+          zIndex: 1,
+          hoverStyle: { backgroundColor: '$backgroundHover' },
+          pressStyle: { backgroundColor: '$backgroundPress' },
+          focusStyle: { borderColor: '$borderColorFocus' },
+         ...safeActiveStyle,
+        color: colorFromActiveStyle,
+        }
       },
-      pressStyle: {
-        backgroundColor: '$backgroundPress',
-      },
-      focusStyle: {
-        borderColor: '$borderColorFocus',
-      },
-    }
-  },
-},
+    },
 
     orientation: {
       horizontal: {
@@ -121,6 +107,7 @@ type ToggleItemExtraProps = {
   pressed?: boolean
   defaultPressed?: boolean
   onPressedChange?(pressed: boolean): void
+  
 }
 
 export type ToggleProps = ToggleFrameProps & ToggleItemExtraProps
@@ -140,6 +127,7 @@ export const Toggle = React.forwardRef<ToggleElement, ToggleProps>(
       defaultProp: defaultPressed,
     })
 
+    
     return (
       <ToggleFrame
         {...(!props.unstyled && {
