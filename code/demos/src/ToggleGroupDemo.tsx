@@ -3,31 +3,25 @@ import type { SizeTokens } from 'tamagui'
 import { Label, styled, ToggleGroup, XStack, YStack } from 'tamagui'
 
 const PurpleItem = styled(ToggleGroup.Item, {
-
-  styleWhenActive: {
+  toggledStyle: {
     backgroundColor: '$pink9',
     color: '$yellow10',
-  } as any,
-  color: '$red10',
+  },
 })
 
 
 const GreenItem = styled(ToggleGroup.Item, {
-
-  styleWhenActive: {
+  toggledStyle: {
     backgroundColor: '$green9',
     color: '$orange10',
-  } as any,
-  color: '$blue10',
-  
+  },
 })
 
 const RedItem = styled(ToggleGroup.Item, {
-  styleWhenActive: {
+  toggledStyle: {
     backgroundColor: '$red9',
-    color: '$pink10',
-  } as any,
-  color: '$purple10',
+    color: '$pink9',
+  },
 })
 
 export function ToggleGroupDemo() {

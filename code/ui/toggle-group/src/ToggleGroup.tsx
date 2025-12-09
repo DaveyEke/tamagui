@@ -47,6 +47,7 @@ type ToggleGroupItemProps = GetProps<typeof ToggleFrame> & {
   id?: string
   disabled?: boolean
   size?: SizeTokens
+ toggledStyle?: GetProps<typeof ToggleFrame>
   /**
    * Used to disable passing styles down to children.
    */
@@ -59,8 +60,7 @@ const ToggleGroupItem = ToggleFrame.extractable(
       const valueContext = useToggleGroupValueContext(props.__scopeToggleGroup)
       const context = useToggleGroupContext(props.__scopeToggleGroup)
       const pressed = valueContext?.value.includes(props.value)
-   
-     const [propsFromStyle, { color }] = usePropsAndStyle(props)
+      usePropsAndStyle({ ...props, active: pressed }, { forComponent: ToggleFrame })
 
       const disabled = context.disabled || props.disabled || false
       const groupItemProps = useGroupItem({ disabled })
@@ -78,19 +78,13 @@ const ToggleGroupItem = ToggleFrame.extractable(
       const iconSize =
         (typeof size === 'number' ? size * 0.7 : getFontSize(size as FontSizeTokens)) *
         1.2
-
-const rawActiveColor = pressed ? (propsFromStyle as any)?.styleWhenActive?.color : undefined
-
-const activeColor =
-  rawActiveColor == null
-    ? undefined
-    : String(getVariableValue(rawActiveColor as any) ?? rawActiveColor)
-
-const iconColor = activeColor ?? (color as unknown as string) ?? (theme.color as unknown as string)
       
+      const toggledStyle = props.toggledStyle 
+      const activeColor = (pressed && toggledStyle?.color) ? toggledStyle.color : theme.color
+
       const getThemedIcon = useGetThemedIcon({
         size: iconSize,
-        color: iconColor, 
+        color: activeColor as unknown as string, 
       })
 
       const childrens = React.Children.toArray(props.children)
@@ -102,10 +96,9 @@ const iconColor = activeColor ?? (color as unknown as string) ?? (theme.color as
       })
 
     const commonProps = {
-        ...propsFromStyle,
+        ...props,
         value: props.value, 
         pressed,
-        active: pressed,
         disabled,
         ...sizeProps,
         children,

@@ -1,12 +1,13 @@
 import { composeEventHandlers } from '@tamagui/helpers'
 import { ThemeableStack } from '@tamagui/stacks'
 import { useControllableState } from '@tamagui/use-controllable-state'
-import type { GetProps } from '@tamagui/web'
+import type { GetProps, ViewProps } from '@tamagui/web'
 import { createStyledContext, styled } from '@tamagui/web'
 import * as React from 'react'
 
 export const context = createStyledContext({
-  color: '',
+ toggledStyle: null as null | ViewProps,
+ color: ""
 })
 
 /* -------------------------------------------------------------------------------------------------
@@ -52,32 +53,26 @@ export const ToggleFrame = styled(ThemeableStack, {
       },
     },
 
-     // used this name beacause "activeStyle" is already taken by Tamagui
-    styleWhenActive: {
-      '...': () => {
-        return {}
-      },
+     // used this name because "activeStyle" is already taken by Tamagui
+    toggledStyle: (val: ViewProps & { color?: string }) => {
+      return {}
     },
 
-     color: {
+   color: {
       '...color': () => {
         return {}
       },
     },
 
-   
-
   active: {
-      true: (_, { props }) => {
-       const activeStyle = (props as any).styleWhenActive || {}
-       const { color: colorFromActiveStyle, ...safeActiveStyle } = activeStyle
+      true: (_, { styledContext }) => {
+       const toggledStyle = styledContext?.toggledStyle || {}
         return {
           zIndex: 1,
           hoverStyle: { backgroundColor: '$backgroundHover' },
           pressStyle: { backgroundColor: '$backgroundPress' },
           focusStyle: { borderColor: '$borderColorFocus' },
-         ...safeActiveStyle,
-        color: colorFromActiveStyle,
+          ...toggledStyle
         }
       },
     },
