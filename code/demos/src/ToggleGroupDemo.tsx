@@ -2,6 +2,7 @@ import { AlignCenter, AlignLeft, AlignRight } from '@tamagui/lucide-icons'
 import type { SizeTokens } from 'tamagui'
 import { Label, styled, ToggleGroup, XStack, YStack } from 'tamagui'
 
+
 const PurpleItem = styled(ToggleGroup.Item, {
   toggledStyle: {
     backgroundColor: '$pink9',

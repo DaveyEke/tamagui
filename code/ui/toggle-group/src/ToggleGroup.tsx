@@ -20,7 +20,8 @@ import {
 import React from 'react'
 
 import type { ToggleProps } from './Toggle'
-import { Toggle, ToggleFrame } from './Toggle'
+import { Toggle, ToggleFrame, context as ToggleContext } from './Toggle'
+
 
 const TOGGLE_GROUP_NAME = 'ToggleGroup'
 
@@ -173,6 +174,7 @@ const ToggleGroupItemImpl = React.forwardRef<
   const typeProps = valueContext.type === 'single' ? singleProps : undefined
 
     return (
+      <ToggleContext.Provider toggledStyle={itemProps.toggledStyle}>  
       <Toggle
         {...typeProps}
         {...itemProps}
@@ -187,6 +189,7 @@ const ToggleGroupItemImpl = React.forwardRef<
           }
         }}
       />
+      </ToggleContext.Provider>
     )
 })
 
