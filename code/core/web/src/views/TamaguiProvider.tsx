@@ -48,7 +48,10 @@ export function TamaguiProvider({
 
   let contents = (
     <UnmountedClassName>
-      <ComponentContext.Provider animationDriver={config?.animations} insets={memoizedInsets}>
+      <ComponentContext.Provider
+        animationDriver={config?.animations}
+        insets={memoizedInsets}
+      >
         <ThemeProvider defaultTheme={defaultTheme} reset={reset} className={className}>
           {children}
         </ThemeProvider>
