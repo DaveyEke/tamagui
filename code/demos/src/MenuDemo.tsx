@@ -16,6 +16,7 @@ import { Button } from 'tamagui'
 
 const Item = styled(Menu.Item, {
   paddingVertical: 4,
+  color: '$color11',
   hoverStyle: {
     backgroundColor: '$color2',
   },
